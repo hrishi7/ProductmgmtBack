@@ -1,6 +1,7 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const bodyParser = require("body-parser");
+const cors = require("cors");
 
 const app = express();
 
@@ -8,6 +9,7 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.json({ extended: false }));
+app.use(cors());
 
 dotenv.config({ path: "./config/config.env" });
 
@@ -19,7 +21,7 @@ mongoDB();
 /**routes */
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/invoice-details", require("./routes/invoiceDetails"));
-// app.use("/api/daily-usage", require("./routes/dailyUsage"));
+app.use("/api/daily-usage", require("./routes/dailyUsage"));
 // app.use("/api/bill", require("./routes/bill"));
 
 const PORT = process.env.PORT || 5000;

@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
+
   /**validation */
   if (!email || !password) {
     return res.status(401).json({ message: "Email/ Password can't be empty" });
@@ -14,6 +15,10 @@ router.post("/login", async (req, res) => {
     email: req.body.email,
     password,
   });
+
+  if (!user) {
+    return res.status(401).json({ message: "Invalid Credientials" });
+  }
   const payload = {
     id: user._id,
     name: user.name,
@@ -31,10 +36,6 @@ router.post("/login", async (req, res) => {
       });
     }
   );
-  res.status(200).json({
-    success: true,
-    token,
-  });
 });
 
 module.exports = router;
